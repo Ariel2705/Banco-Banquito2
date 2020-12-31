@@ -13,7 +13,7 @@ app.set('port', process.env.PORT || 3000);
 app.use(morgan('dev'));
 app.use(express.json());
 
-app.use('/api/transfer', require('./routes/transfer.routes'));
+app.use('/api/transaction', require('./routes/transaction.routes'));
 app.use(express.static(path.join(__dirname,'public')));
 
 app.listen(app.get('port'), () => {

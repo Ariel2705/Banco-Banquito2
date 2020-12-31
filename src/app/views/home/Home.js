@@ -7,7 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Client from '../client/Client';
-import Transfer from '../transfer/Transfer';
+import Transaction from '../transaction/Transaction';
 
 function Home(props) {
   const { children, value, index } = props;
@@ -55,15 +55,15 @@ export default function SimpleTabs() {
     <div className={classes.root}>
       <AppBar position="static">
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
+          <Tab label="Clientes y cuentas" {...a11yProps(0)} />
+          <Tab label="Transacciones" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <Home value={value} index={0}>
         <Client/>
       </Home>
       <Home value={value} index={1}>
-        <Transfer/>
+        <Transaction/>
       </Home>
     </div>
   );

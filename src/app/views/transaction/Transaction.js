@@ -15,7 +15,7 @@ class Transfer extends Component {
   }
 
   addTransfer() {
-    fetch('/api/transfer', {
+    fetch('/api/transaction', {
       method: 'POST',
       body: JSON.stringify(this.state),
       headers: {
