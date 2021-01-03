@@ -1,20 +1,36 @@
 import React, { Component } from 'react';
+import TextField from '@material-ui/core/TextField';
+import TabTransaction from '../../components/TabTransaction';
 
-
-class Transfer extends Component {
+class Transaction extends Component {
 
   constructor() {
     super();
-    this.state = {
-      sender: "a",
-      receiver: "b",
-      date: "c",
-      type: "d",
-      description: "e"
+  } 
+
+  render() {
+    return (
+    <div>
+      <form  noValidate autoComplete="off">
+        <TabTransaction />
+      </form>
+    </div>
+    );
+  }
+}
+export default Transaction;
+
+/*
+this.state = {
+      sender: "",
+      receiver: "",
+      date: "",
+      type: "",
+      description: ""
     };
   }
 
-  addTransfer() {
+  addTransaction() {
     fetch('/api/transaction', {
       method: 'POST',
       body: JSON.stringify(this.state),
@@ -25,14 +41,4 @@ class Transfer extends Component {
     })
       .then( res => console.log(res))
       .catch( err => console.log(err));
-  }
-
-  render() {
-    return (
-    <div className="App">
-      <h1>Transfer {this.addTransfer()}</h1>
-    </div>
-    );
-  }
-}
-export default Transfer;
+*/
