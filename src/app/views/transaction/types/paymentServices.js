@@ -6,6 +6,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import Axios from 'axios';
 
 import ModalTransaction from '../../../components/modalTransaction';
 
@@ -14,19 +15,58 @@ class withdrawal extends Component {
         super(props);
         this.state = {
             sender: "",
-            receiver: "2300000001",
+            receiver: "230000000003",
             date: "",
             type: "Débito",
             description: "",
             mount: 0,
-            balance: 0,
+            balanceSender: 0,
+            balanceReceiver: 0,
+            transactionValidate: "",
+            typeTransaction: "pagos",
             show: false,
         };
         this.handleClick = this.handleClick.bind(this);
     }
 
-    handleClick (event,op) {
-        switch(op){
+    CurrentDate() {
+        var f = new Date();
+        var fechaAct = f.getFullYear() + "-" + (f.getMonth() + 1) + "-" + f.getDate();
+        this.setState({ date: fechaAct });
+    };
+
+    continue() {
+        this.CurrentDate();
+        Axios.post('http://localhost:3000/account/searchAccount', {
+            account: this.state.sender,
+        }).then((response) => {
+            if (response.data === "") {
+                this.setState({ transactionValidate: "Cuenta no registrada." });
+            } else {
+                this.setState({ transactionValidate: "" });
+                response.data.map((val) => {
+                    if (parseFloat(val.curBalAccount) < parseFloat(this.state.mount)) {
+                        this.setState({ transactionValidate: "Fondos insuficientes." });
+                    } else {
+                        this.setState({ transactionValidate: "" });
+                        this.setState({ balanceReceiver: parseFloat(parseFloat(val.curBalAccount) - parseFloat(this.state.mount)) });
+                    }
+                });
+            }
+        });
+        Axios.post('http://localhost:3000/account/searchAccount', {
+            account: this.state.receiver,
+        }).then((response) => {
+            response.data.map((val) => {
+                this.setState({ balanceSender: parseFloat(parseFloat(val.curBalAccount) + parseFloat(this.state.mount)).toFixed(2) });
+            });
+        });
+
+        this.setState({ show: true });
+    }
+
+    handleClick(event, op) {
+        switch (op) {
             case 2:
                 this.setState({
                     sender: event.target.value,
@@ -43,7 +83,7 @@ class withdrawal extends Component {
                 });
                 break;
         }
-      };
+    };
 
     addTransaction() {
         fetch('/api/transaction', {
@@ -84,7 +124,7 @@ class withdrawal extends Component {
                                     paddingRight: 90,
                                 }
                             }}
-                            onChange={(event) => this.handleClick(event,6)}
+                            onChange={(event) => this.handleClick(event, 6)}
                         />
                     </Grid>
 
@@ -95,7 +135,7 @@ class withdrawal extends Component {
                                 labelId="pagos"
                                 id="pagos"
                                 style={{ width: 250 }}
-                                onClick={(event) => this.handleClick(event,5)}
+                                onClick={(event) => this.handleClick(event, 5)}
                                 value={this.state.description}
                             >
                                 <MenuItem value={"Pago de agua potable"}>Agua Potable</MenuItem>
@@ -114,27 +154,30 @@ class withdrawal extends Component {
                             InputLabelProps={{
                                 shrink: true,
                             }}
-                            onChange={(event) => this.handleClick(event,2)}
+                            onChange={(event) => this.handleClick(event, 2)}
                         />
                     </Grid>
 
                     <Grid item>
-                        <Button variant="outlined" color="primary" onClick={() => this.setState({show: true})}>
+                        <Button variant="outlined" color="primary" onClick={() => this.continue()}>
                             Continuar
                         </Button>
                     </Grid>
                 </Grid>
                 <ModalTransaction
-                        sender={this.state.sender}
-                        receiver={this.state.receiver}
-                        date={this.state.date}
-                        type={this.state.type}
-                        description={this.state.description}
-                        mount={this.state.mount}
-                        balance={this.state.balance}
-                        show={this.state.show}
-                        onHide={() => this.setState({ show: false })}
-                    />
+                    sender={this.state.sender}
+                    receiver={this.state.receiver}
+                    date={this.state.date}
+                    type={this.state.type}
+                    description={this.state.description}
+                    mount={this.state.mount}
+                    balanceSender={this.state.balanceSender}
+                    balanceReceiver={this.state.balanceReceiver}
+                    typeTransaction={this.state.typeTransaction}
+                    transactionValidate={this.state.transactionValidate}
+                    show={this.state.show}
+                    onHide={() => this.setState({ show: false })}
+                />
             </div >
         );
     }

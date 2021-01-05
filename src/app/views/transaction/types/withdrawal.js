@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
+import Axios from 'axios';
+
+import ModalTransaction from '../../../components/modalTransaction';
 
 class withdrawal extends Component {
     constructor(props) {
@@ -14,23 +13,64 @@ class withdrawal extends Component {
             sender: "",
             receiver: "",
             date: "",
-            type: "",
-            description: ""
+            type: "Débito",
+            description: "",
+            mount: 0,
+            balanceSender: 0,
+            balanceReceiver: 0,
+            typeTransaction: "Retiro",
+            transactionValidate: "",
+            show: false,
         };
+        this.handleClick = this.handleClick.bind(this);
     }
 
-    addTransaction() {
-        fetch('/api/transaction', {
-            method: 'POST',
-            body: JSON.stringify(this.state),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+    CurrentDate() {
+        var f = new Date();
+        var fechaAct = f.getFullYear() + "-" + (f.getMonth() + 1) + "-" + f.getDate();
+        this.setState({ date: fechaAct });
+    };
+
+    continue() {
+        this.CurrentDate();
+        this.setState({
+            description: "Se retiró $" + this.state.mount + " de la cuenta " + this.state.receiver,
+        });
+        Axios.post('http://localhost:3000/account/searchAccount', {
+            account: this.state.receiver,
+        }).then((response) => {
+            if (response.data === "") {
+                this.setState({ transactionValidate: "Cuenta no registrada." });
+            }else{
+                this.setState({ transactionValidate: "" });
+                response.data.map((val) => {
+                    if(parseFloat(val.curBalAccount) < parseFloat(this.state.mount)){
+                        this.setState({ transactionValidate: "Fondos insuficientes." });
+                    }else{
+                        this.setState({balanceReceiver:  parseFloat(parseFloat(val.curBalAccount) - parseFloat(this.state.mount)).toFixed(2)});
+                    }
+                });
             }
-        })
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
+        });
+
+        this.setState({ show: true });
     }
+
+    handleClick(event, op) {
+        switch (op) {
+            case 1:
+                this.setState({
+                    mount: event.target.value,
+                });
+                break;
+            case 2:
+                this.setState({
+                    sender: event.target.value,
+                    receiver: event.target.value,
+                });
+                break;
+        }
+    };
 
     render() {
         return (
@@ -58,6 +98,7 @@ class withdrawal extends Component {
                                     paddingRight: 90,
                                 }
                             }}
+                            onChange={(event) => this.handleClick(event, 1)}
                         />
                     </Grid>
 
@@ -69,15 +110,30 @@ class withdrawal extends Component {
                             InputLabelProps={{
                                 shrink: true,
                             }}
+                            onChange={(event) => this.handleClick(event, 2)}
                         />
                     </Grid>
 
                     <Grid item>
-                        <Button variant="outlined" color="primary">
+                        <Button variant="outlined" color="primary" onClick={() => this.continue()}>
                             Continuar
                         </Button>
                     </Grid>
                 </Grid>
+                <ModalTransaction
+                    sender={this.state.sender}
+                    receiver={this.state.receiver}
+                    date={this.state.date}
+                    type={this.state.type}
+                    description={this.state.description}
+                    mount={this.state.mount}
+                    balanceSerder={this.state.balanceSender}
+                    balanceReceiver={this.state.balanceReceiver}
+                    typeTransaction={this.state.typeTransaction}
+                    transactionValidate={this.state.transactionValidate}
+                    show={this.state.show}
+                    onHide={() => this.setState({ show: false })}
+                />
             </div >
         );
     }

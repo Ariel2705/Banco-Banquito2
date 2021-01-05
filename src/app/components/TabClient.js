@@ -5,13 +5,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
-import Deposit from '../views/transaction/types/deposit';
-import PaymentServices from '../views/transaction/types/paymentServices';
-import Transfer from '../views/transaction/types/transfer';
-import Withdrawal from '../views/transaction/types/withdrawal';
+import Client from '../views/clients/client/Client';
+import Account from '../views/clients/account/Account';
 
 function TabPanel(props) {
-  const { children, value, index } = props;
+  const { children, value, index} = props;
 
   return (
     <div
@@ -65,22 +63,14 @@ export default function VerticalTabs() {
         onChange={handleChange}
         aria-label="Vertical tabs example"
       >
-        <Tab label="Depósito" {...a11yProps(0)} />
-        <Tab label="Retiro" {...a11yProps(1)} />
-        <Tab label="Pago servicios básicos" {...a11yProps(2)} />
-        <Tab label="Transferencias" {...a11yProps(3)} />
+        <Tab label="Creación de clientes" {...a11yProps(0)} />
+        <Tab label="Creación de cuentas" {...a11yProps(1)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <Deposit />
+        <Client />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Withdrawal />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <PaymentServices />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <Transfer />
+       <Account />
       </TabPanel>
     </div>
   );

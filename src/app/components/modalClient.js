@@ -15,8 +15,8 @@ const paper = {
 
 const img = {
     margin: 'auto',
-    maxWidth: '120px',
-    maxHeight: '120px',
+    maxWidth: '100px',
+    maxHeight: '100px',
 };
 
 const body = {
@@ -26,36 +26,28 @@ const body = {
     padding: '25px',
 };
 
-class modalTransaction extends Component {
+class modalClient extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-
-        };
         this.modalShow = this.modalShow.bind(this);
         //this.handleClick = this.handleClick.bind(this);
     }
 
-    addTransaction() {
-        Axios.post('http://localhost:3000/account/activateAccount', {
-            accountSender: this.props.sender,
-            accountReceiver: this.props.receiver,
-            balanceReceiver: this.props.balanceReceiver,
-            balanceSender: this.props.balanceSender,
-            typeTransaction: this.props.typeTransaction,
+    submitReview() {
+        console.log("A");
+        Axios.post('http://localhost:3000/client/insert', {
+          clientDocIde: this.props.id,
+          clientName: this.props.name,
+          clientSurname: this.props.surname,
+          clientProvince: this.props.province,
+          clientAddress: this.props.address,
+          clientEmail: this.props.email,
+          clientPhone: this.props.phone,
+          clientPhone1: this.props.phoneAux,
+          clientBirthDate: this.props.birthdate,
         });
-        fetch('/api/transaction', {
-            method: 'POST',
-            body: JSON.stringify(this.props),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
         this.modalShow();
-    }
+    };
 
     body() {
         return (
@@ -71,53 +63,59 @@ class modalTransaction extends Component {
                             />
                         </Paper>
                     </Grid>
-                    {this.props.transactionValidate != "" ? (
+                    {this.props.clientIdValidate != "" ? (
                         <Grid item xs={6}>
-                            <h5>{this.props.transactionValidate}</h5>
+                            <h5>{this.props.clientIdValidate}</h5>
                         </Grid>
                     ) :
                         <Grid container>
                             <Grid item xs={6}>
-                                <h5>Enviado por:</h5>
+                                <h5>Documento de identificación:</h5>
                             </Grid>
                             <Grid item xs={6}>
-                                <h4>{this.props.sender}</h4>
+                                <h4>{this.props.id}</h4>
                             </Grid>
                             <Grid item xs={6}>
-                                <h5>Cuenta beneficiaria:</h5>
+                                <h5>Nombres:</h5>
                             </Grid>
                             <Grid item xs={6}>
-                                <h4>{this.props.receiver}</h4>
+                                <h4>{this.props.name}</h4>
                             </Grid>
                             <Grid item xs={6}>
-                                <h5>Fecha de emisión:</h5>
+                                <h5>Apellidos:</h5>
                             </Grid>
                             <Grid item xs={6}>
-                                <h4>{this.props.date}</h4>
+                                <h4>{this.props.surname}</h4>
                             </Grid>
                             <Grid item xs={6}>
-                                <h5>Tipo de transacción:</h5>
+                                <h5>Provincia:</h5>
                             </Grid>
                             <Grid item xs={6}>
-                                <h4>{this.props.type}</h4>
+                                <h4>{this.props.province}</h4>
                             </Grid>
                             <Grid item xs={6}>
-                                <h5>Descripción:</h5>
+                                <h5>Dirección:</h5>
                             </Grid>
                             <Grid item xs={6}>
-                                <h4>{this.props.description}</h4>
+                                <h4>{this.props.address}</h4>
                             </Grid>
                             <Grid item xs={6}>
-                                <h5>Monto de transacción:</h5>
+                                <h5>Email:</h5>
                             </Grid>
                             <Grid item xs={6}>
-                                <h4>{this.props.mount}</h4>
-                            </Grid>                            
-                            <Grid item xs={6}>
-                                <h5>Saldo actual:</h5>
+                                <h4>{this.props.email}</h4>
                             </Grid>
                             <Grid item xs={6}>
-                                <h4>{this.props.balanceReceiver}</h4>
+                                <h5>Telefono:</h5>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <h4>{this.props.phone}</h4>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <h5>Fecha de nacimiento:</h5>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <h4>{this.props.birthdate}</h4>
                             </Grid>
 
                             <Paper elevation={0} style={paper}>
@@ -127,10 +125,10 @@ class modalTransaction extends Component {
                                         variant="contained"
                                         color="primary"
                                         style={{ width: 290 }}
-                                        onClick={() => this.addTransaction()}
+                                        onClick={() => this.submitReview()}
                                     >
                                         Confirmar
-                                    </Button>
+                            </Button>
                                 </Grid>
                             </Paper>
                         </Grid>
@@ -144,11 +142,15 @@ class modalTransaction extends Component {
                                 style={{ width: 290 }}
                                 onClick={this.modalShow}
                             >
-                                Cancelar
+                                Salir
                         </Button>
                         </Grid>
                     </Paper>
                 </Grid>
+
+
+
+
             </div>
         );
     }
@@ -161,9 +163,10 @@ class modalTransaction extends Component {
         return (
             <Modal className="modal" open={this.props.show} onClose={this.props.onHide} >
                 {this.body()}
+
             </Modal>
         );
     }
 }
 
-export default modalTransaction;
+export default modalClient;

@@ -15,8 +15,8 @@ const paper = {
 
 const img = {
     margin: 'auto',
-    maxWidth: '120px',
-    maxHeight: '120px',
+    maxWidth: '100px',
+    maxHeight: '100px',
 };
 
 const body = {
@@ -26,36 +26,21 @@ const body = {
     padding: '25px',
 };
 
-class modalTransaction extends Component {
+class modalAccount extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
-        };
+            date:"",
+          };
         this.modalShow = this.modalShow.bind(this);
         //this.handleClick = this.handleClick.bind(this);
     }
-
-    addTransaction() {
-        Axios.post('http://localhost:3000/account/activateAccount', {
-            accountSender: this.props.sender,
-            accountReceiver: this.props.receiver,
-            balanceReceiver: this.props.balanceReceiver,
-            balanceSender: this.props.balanceSender,
-            typeTransaction: this.props.typeTransaction,
-        });
-        fetch('/api/transaction', {
-            method: 'POST',
-            body: JSON.stringify(this.props),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
-        this.modalShow();
-    }
+    
+    CurrentDate(){
+        var f = new Date();
+        var fechaAct = f.getFullYear()+"-"+(f.getMonth() +1)+"-"+f.getDate();
+        return fechaAct;
+    };
 
     body() {
         return (
@@ -71,68 +56,42 @@ class modalTransaction extends Component {
                             />
                         </Paper>
                     </Grid>
-                    {this.props.transactionValidate != "" ? (
+                    {this.props.AccountValidate != "" ? (
                         <Grid item xs={6}>
-                            <h5>{this.props.transactionValidate}</h5>
+                            <h5>{this.props.AccountValidate}</h5>
                         </Grid>
                     ) :
                         <Grid container>
                             <Grid item xs={6}>
-                                <h5>Enviado por:</h5>
+                                <h5>Documento de identificación:</h5>
                             </Grid>
                             <Grid item xs={6}>
-                                <h4>{this.props.sender}</h4>
+                                <h4>{this.props.id}</h4>
                             </Grid>
                             <Grid item xs={6}>
-                                <h5>Cuenta beneficiaria:</h5>
+                                <h5>Numero de cuenta creada:</h5>
                             </Grid>
                             <Grid item xs={6}>
-                                <h4>{this.props.receiver}</h4>
+                                <h4>{this.props.numberAccount}</h4>
                             </Grid>
                             <Grid item xs={6}>
-                                <h5>Fecha de emisión:</h5>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <h4>{this.props.date}</h4>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <h5>Tipo de transacción:</h5>
+                                <h5>Tipo de cuenta:</h5>
                             </Grid>
                             <Grid item xs={6}>
                                 <h4>{this.props.type}</h4>
                             </Grid>
                             <Grid item xs={6}>
-                                <h5>Descripción:</h5>
+                                <h5>Estado actual:</h5>
                             </Grid>
                             <Grid item xs={6}>
-                                <h4>{this.props.description}</h4>
+                                <h4>Inactivo</h4>
                             </Grid>
                             <Grid item xs={6}>
-                                <h5>Monto de transacción:</h5>
+                                <h5>Fecha de creación:</h5>
                             </Grid>
                             <Grid item xs={6}>
-                                <h4>{this.props.mount}</h4>
-                            </Grid>                            
-                            <Grid item xs={6}>
-                                <h5>Saldo actual:</h5>
+                                <h4>{this.CurrentDate()}</h4>
                             </Grid>
-                            <Grid item xs={6}>
-                                <h4>{this.props.balanceReceiver}</h4>
-                            </Grid>
-
-                            <Paper elevation={0} style={paper}>
-                                <Grid item xs={12}>
-                                    <Button
-                                        type="submit"
-                                        variant="contained"
-                                        color="primary"
-                                        style={{ width: 290 }}
-                                        onClick={() => this.addTransaction()}
-                                    >
-                                        Confirmar
-                                    </Button>
-                                </Grid>
-                            </Paper>
                         </Grid>
                     }
                     <Paper elevation={0} style={paper}>
@@ -144,11 +103,15 @@ class modalTransaction extends Component {
                                 style={{ width: 290 }}
                                 onClick={this.modalShow}
                             >
-                                Cancelar
+                                Salir
                         </Button>
                         </Grid>
                     </Paper>
                 </Grid>
+
+
+
+
             </div>
         );
     }
@@ -161,9 +124,10 @@ class modalTransaction extends Component {
         return (
             <Modal className="modal" open={this.props.show} onClose={this.props.onHide} >
                 {this.body()}
+
             </Modal>
         );
     }
 }
 
-export default modalTransaction;
+export default modalAccount;

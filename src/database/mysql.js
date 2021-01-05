@@ -1,10 +1,17 @@
-const mysql = require('mysql');
+var mysql = require('mysql');
 
-const db = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'bancobanquito',
+var conexion= mysql.createConnection({
+    host : 'localhost',
+    database : 'bancobanquito',
+    user : 'root',
+    password : '',
 });
 
-module.exports = db;
+conexion.connect(function(err) {
+    if (err) {
+        console.error('Error de conexion: '+ err);
+        return;
+    }
+});
+
+module.exports = conexion;

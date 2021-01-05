@@ -5,7 +5,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-import Client from '../client/Client';
+
+import Client from '../clients/index';
 import Transaction from '../transaction/Transaction';
 
 function Home(props) {

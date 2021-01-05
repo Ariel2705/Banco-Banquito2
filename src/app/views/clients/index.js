@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import TabTransaction from '../../components/TabTransaction';
+import TabClients from '../../components/TabClient';
 
 class Transaction extends Component {
 
@@ -12,7 +12,7 @@ class Transaction extends Component {
     return (
     <div>
       <form  noValidate autoComplete="off">
-        <TabTransaction />
+        <TabClients />
       </form>
     </div>
     );
