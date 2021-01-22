@@ -38,7 +38,7 @@ class withdrawal extends Component {
 
     continue() {
         this.CurrentDate();
-        Axios.post('http://localhost:3000/account/searchAccount', {
+        Axios.post('http://52.86.141.98:3000/account/searchAccount', {
             account: this.state.sender,
         }).then((response) => {
             if (response.data === "") {
@@ -55,7 +55,7 @@ class withdrawal extends Component {
                 });
             }
         });
-        Axios.post('http://localhost:3000/account/searchAccount', {
+        Axios.post('http://52.86.141.98:3000/account/searchAccount', {
             account: this.state.receiver,
         }).then((response) => {
             response.data.map((val) => {
@@ -194,7 +194,7 @@ class withdrawal extends Component {
                         <TextField
                             label="Numero de cuenta"
                             style={{ width: 390 }}
-                            placeholder="2300000001"
+                            placeholder="270000000001"
                             InputLabelProps={{
                                 shrink: true,
                             }}

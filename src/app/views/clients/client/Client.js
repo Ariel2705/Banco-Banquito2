@@ -75,7 +75,7 @@ class Client extends Component {
   validateDocIde() {
     var DocId = this.state.id;
     if (DocId.toString().length === 13) {
-      Axios.post('http://localhost:3000/contribuyente/searchContribuyente', {
+      Axios.post('http://52.86.141.98:3000/contribuyente/searchContribuyente', {
         docIdeClient: this.state.id,
       })
         .then((response) => {
@@ -98,7 +98,7 @@ class Client extends Component {
         })
         .catch(err => console.log(err));
     } else {
-      Axios.post('http://localhost:3000/rc/person/searchPerson', {
+      Axios.post('http://52.86.141.98:3000/rc/person/searchPerson', {
         docIdeClient: this.state.id,
       })
         .then((response) => {
@@ -131,7 +131,7 @@ class Client extends Component {
 
     console.log(cedula);
 
-    Axios.post('http://localhost:3000/observado/searchObservado', {
+    Axios.post('http://52.86.141.98:3000/observado/searchObservado', {
       docIdeClient: cedula,
     })
       .then((response) => {
@@ -150,7 +150,7 @@ class Client extends Component {
   }
 
   searchClient() {
-    Axios.post('http://localhost:3000/client/searchId', {
+    Axios.post('http://52.86.141.98:3000/client/searchId', {
       docIdeClient: this.state.id,
     })
       .then((response) => {
@@ -177,7 +177,7 @@ class Client extends Component {
   loadProvince() {
     var provinces = [];
     var i = 0;
-    Axios.post('http://localhost:3000/location/loadData')
+    Axios.post('http://52.86.141.98:3000/location/loadData')
       .then((response) => {
         response.data.map((val) => {
           provinces[i] = val.name;
@@ -190,7 +190,7 @@ class Client extends Component {
   loadCantones(e) {
     const province = e.target.value;
     var cantones = [];
-    Axios.post('http://localhost:3000/location/searchLocation', {
+    Axios.post('http://52.86.141.98:3000/location/searchLocation', {
       province: province
     }).then((response) => {
       response.data.map((val) => {

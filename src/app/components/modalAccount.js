@@ -33,7 +33,6 @@ class modalAccount extends Component {
             date:"",
           };
         this.modalShow = this.modalShow.bind(this);
-        //this.handleClick = this.handleClick.bind(this);
     }
     
     CurrentDate(){

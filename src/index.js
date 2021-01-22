@@ -6,7 +6,7 @@ const {mongoose} = require('./database/mongo')
 
 const app = express();
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', 3000);
 
 app.use(morgan('dev'));
 app.use(express.json());

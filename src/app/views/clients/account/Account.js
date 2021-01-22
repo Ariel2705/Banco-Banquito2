@@ -45,7 +45,7 @@ class Account extends Component {
   searchIdClient() {
     var data = ["", this.state.type];
 
-    Axios.post('http://localhost:3000/client/searchId', {
+    Axios.post('http://52.86.141.98:3000/client/searchId', {
       docIdeClient: this.state.id,
     })
       .then((response) => {
@@ -64,7 +64,7 @@ class Account extends Component {
 
   newNumberAccount(idClient) {
     var numberAccount = 0;
-    Axios.post('http://localhost:3000/account/last')
+    Axios.post('http://52.86.141.98:3000/account/last')
       .then((response) => {
         response.data.map((val) => {
           numberAccount = parseInt(val.NUMBER) + 1;
@@ -75,7 +75,7 @@ class Account extends Component {
 
   submitAccount(idClient, numberAcc) {
     this.setState({numberAccount: numberAcc});
-    Axios.post('http://localhost:3000/account/insert', {
+    Axios.post('http://52.86.141.98:3000/account/insert', {
       idClientAccount: idClient,
       typeAccount: this.state.type,
       numberAccount: numberAcc,
@@ -84,7 +84,7 @@ class Account extends Component {
   };
 
   searchTypeAccount(data) {
-    Axios.post('http://localhost:3000/account/searchTypeAccount', {
+    Axios.post('http://52.86.141.98:3000/account/searchTypeAccount', {
       idClient: data[0],
       typeAccount: data[1],
     })

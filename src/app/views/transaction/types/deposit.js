@@ -35,7 +35,7 @@ class deposit extends Component {
         this.setState({
             description: "La persona con cédula " + this.state.sender + " depositó $" + this.state.mount + " al numero de cuenta " + this.state.receiver,
         });
-        Axios.post('http://localhost:3000/account/searchAccount', {
+        Axios.post('http://52.86.141.98:3000/account/searchAccount', {
             account: this.state.receiver,
         }).then((response) => {
             if (response.data === "") {
@@ -43,7 +43,7 @@ class deposit extends Component {
             } else {
                 this.setState({ transactionValidate: "" });
                 response.data.map((val) => {
-                    this.setState({ balanceReceiver: parseFloat(parseFloat(val.CURRENT_BALANCE) + parseFloat(this.state.mount)).toFixed(2) });
+                    this.setState({balanceReceiver: parseFloat(parseFloat(val.CURRENT_BALANCE) + parseFloat(this.state.mount)).toFixed(2)});
                 });
             }
         });
@@ -84,7 +84,7 @@ class deposit extends Component {
                 >
                     <Grid item>
                         <TextField
-                            label="Ingrese el moa depositar"
+                            label="Ingrese el monto a depositar"
                             style={{ width: 390 }}
                             placeholder="$ 0.00"
                             InputLabelProps={{
@@ -118,7 +118,7 @@ class deposit extends Component {
                         <TextField
                             label="Cuenta del beneficiario"
                             style={{ width: 390 }}
-                            placeholder="230000000001"
+                            placeholder="270000000001"
                             InputLabelProps={{
                                 shrink: true,
                             }}

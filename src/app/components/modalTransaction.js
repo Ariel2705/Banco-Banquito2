@@ -37,10 +37,11 @@ class modalTransaction extends Component {
     }
 
     addTransaction() {
-        Axios.post('http://localhost:3000/account/activateAccount', {
+        Axios.post('http://52.86.141.98:3000/account/activateAccount', {
             accountSender: this.props.sender,
             accountReceiver: this.props.receiver,
             balanceReceiver: this.props.balanceReceiver,
+            mount: this.props.mount,
             balanceSender: this.props.balanceSender,
             typeTransaction: this.props.typeTransaction,
         });

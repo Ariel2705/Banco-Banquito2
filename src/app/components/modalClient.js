@@ -34,7 +34,7 @@ class modalClient extends Component {
     }
 
     submitReview() {
-        Axios.post('http://localhost:3000/client/insert', {
+        Axios.post('http://52.86.141.98:3000/client/insert', {
           clientDocIde: this.props.id,
           clientName: this.props.name,
           clientSurname: this.props.surname,

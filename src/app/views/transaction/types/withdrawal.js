@@ -36,7 +36,7 @@ class withdrawal extends Component {
         this.setState({
             description: "Se retiró $" + this.state.mount + " de la cuenta " + this.state.receiver,
         });
-        Axios.post('http://localhost:3000/account/searchAccount', {
+        Axios.post('http://52.86.141.98:3000/account/searchAccount', {
             account: this.state.receiver,
         }).then((response) => {
             if (response.data === "") {
@@ -106,7 +106,7 @@ class withdrawal extends Component {
                         <TextField
                             label="Numero de cuenta"
                             style={{ width: 390 }}
-                            placeholder="230000000001"
+                            placeholder="270000000001"
                             InputLabelProps={{
                                 shrink: true,
                             }}

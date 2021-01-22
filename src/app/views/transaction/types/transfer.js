@@ -35,11 +35,9 @@ class transfer extends Component {
         this.setState({
             description: "La cuenta " + this.state.sender + " transfirió $" + this.state.mount + " a la cuenta " + this.state.receiver,
         });
-        Axios.post('http://localhost:3000/account/searchAccount', {
+        Axios.post('http://52.86.141.98:3000/account/searchAccount', {
             account: this.state.receiver,
         }).then((response) => {
-            console.log("BENEFICIARIO");
-            console.log(response);
             if (response.data === "") {
                 this.setState({ transactionValidate: "Cuenta no registrada del beneficiario. " });
             } else {
@@ -50,7 +48,7 @@ class transfer extends Component {
             }
         });
 
-        Axios.post('http://localhost:3000/account/searchAccount', {
+        Axios.post('http://52.86.141.98:3000/account/searchAccount', {
             account: this.state.sender,
         }).then((response) => {
             console.log("depositante");
@@ -138,7 +136,7 @@ class transfer extends Component {
                         <TextField
                             label="Cuenta del despositante"
                             style={{ width: 390 }}
-                            placeholder="230000000001"
+                            placeholder="270000000001"
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -150,7 +148,7 @@ class transfer extends Component {
                         <TextField
                             label="Cuenta del beneficiario"
                             style={{ width: 390 }}
-                            placeholder="2300000002"
+                            placeholder="270000000002"
                             InputLabelProps={{
                                 shrink: true,
                             }}

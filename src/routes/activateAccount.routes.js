@@ -9,6 +9,7 @@ router.post('/', (req, res) => {
     const balanceSender = req.body.balanceSender;
     const balanceReceiver = req.body.balanceReceiver;
     const typeTransaction = req.body.typeTransaction;
+    const mount = req.body.mount;
     var sqlInsert = "";
     var codigoSender = 0;
     var codigoReceiver = 0;
@@ -32,12 +33,12 @@ router.post('/', (req, res) => {
 
         setTimeout(() => {
             sqlInsert =
-                "UPDATE client SET BALANCE_ACCOUNT = ? WHERE COD_CLIENT = ?";
-            db.query(sqlInsert, [balanceSender, codigoReceiver]);
+                "UPDATE client SET BALANCE_ACCOUNT = BALANCE_ACCOUNT + ? WHERE COD_CLIENT = ?";
+            db.query(sqlInsert, [mount, codigoReceiver]);
 
             sqlInsert =
-                "UPDATE client SET BALANCE_ACCOUNT = ? WHERE COD_CLIENT = ?";
-            db.query(sqlInsert, [balanceReceiver, codigoSender]);
+                "UPDATE client SET BALANCE_ACCOUNT = BALANCE_ACCOUNT - ? WHERE COD_CLIENT = ?";
+            db.query(sqlInsert, [mount, codigoSender]);
 
             sqlInsert =
                 "UPDATE account SET STATUS = 1, CURRENT_BALANCE = ? WHERE NUMBER = ?";
@@ -47,15 +48,26 @@ router.post('/', (req, res) => {
             db.query(sqlInsert, [balanceSender, accountReceiver]);
         }, 1000);
 
-    } else {
+    } else if(typeTransaction === "Deposito") {
         setTimeout(() => {
             sqlInsert =
-                "UPDATE client SET BALANCE_ACCOUNT = ? WHERE COD_CLIENT = ?";
-            db.query(sqlInsert, [balanceReceiver, codigoReceiver]);
+                "UPDATE client SET BALANCE_ACCOUNT =  BALANCE_ACCOUNT + ? WHERE COD_CLIENT = ?";
+            db.query(sqlInsert, [mount, codigoReceiver]);
             sqlInsert =
                 "UPDATE account SET STATUS = 1, CURRENT_BALANCE = ? WHERE NUMBER = ?";
             db.query(sqlInsert, [balanceReceiver, accountReceiver]);
         }, 1000);
+    } else {
+        {
+            setTimeout(() => {
+                sqlInsert =
+                    "UPDATE client SET BALANCE_ACCOUNT =  BALANCE_ACCOUNT - ? WHERE COD_CLIENT = ?";
+                db.query(sqlInsert, [mount, codigoReceiver]);
+                sqlInsert =
+                    "UPDATE account SET STATUS = 1, CURRENT_BALANCE = ? WHERE NUMBER = ?";
+                db.query(sqlInsert, [balanceReceiver, accountReceiver]);
+            }, 1000);
+        }
     }
 
 });
