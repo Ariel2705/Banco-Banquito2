@@ -16,10 +16,10 @@ router.post('/',(req, res) =>{
     const statusAccount = '0';
     const numberAccount = req.body.numberAccount;
     const creationDate = CurrentDate();
-    const currentBalance = 0;
+    const currentBalance = 0.00;
 
     const sqlInsert = 
-    "INSERT INTO account (FK_ID_Client,typeAccount,statusAccount,numberAccount,creDatAccount,curBalAccount) VALUES(?,?,?,?,?,?)";
+    "INSERT INTO account (CLIENT,TYPE,STATUS,NUMBER,CREATION_DATE,CURRENT_BALANCE) VALUES(?,?,?,?,?,?)";
     db.query(sqlInsert, [idClient,typeAccount,statusAccount,numberAccount,creationDate,currentBalance], (err, result)=> {
     console.log(err);
     });

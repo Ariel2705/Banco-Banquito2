@@ -9,7 +9,7 @@ router.post('/', (req,res) => {
     console.log(idClient+typeAccount);
 
     const sqlSelectSearchTypeAccount = 
-        "SELECT ID_Account FROM account WHERE FK_ID_Client = ?  AND typeAccount = ?";
+        "SELECT COD_ACCOUNT FROM account WHERE CLIENT = ?  AND TYPE = ?";
     db.query(sqlSelectSearchTypeAccount, [idClient,typeAccount], (err,result) => {
         console.log(result);
         if(JSON.stringify(result) != '[]'){

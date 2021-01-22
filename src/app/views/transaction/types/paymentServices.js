@@ -15,10 +15,11 @@ class withdrawal extends Component {
         super(props);
         this.state = {
             sender: "",
-            receiver: "230000000003",
+            receiver: "270000000003",
             date: "",
             type: "Débito",
             description: "",
+            descriptionAux: "",
             mount: 0,
             balanceSender: 0,
             balanceReceiver: 0,
@@ -45,11 +46,11 @@ class withdrawal extends Component {
             } else {
                 this.setState({ transactionValidate: "" });
                 response.data.map((val) => {
-                    if (parseFloat(val.curBalAccount) < parseFloat(this.state.mount)) {
+                    if (parseFloat(val.CURRENT_BALANCE) < parseFloat(this.state.mount)) {
                         this.setState({ transactionValidate: "Fondos insuficientes." });
                     } else {
                         this.setState({ transactionValidate: "" });
-                        this.setState({ balanceReceiver: parseFloat(parseFloat(val.curBalAccount) - parseFloat(this.state.mount)) });
+                        this.setState({ balanceReceiver: parseFloat(parseFloat(val.CURRENT_BALANCE) - parseFloat(this.state.mount)) });
                     }
                 });
             }
@@ -58,7 +59,7 @@ class withdrawal extends Component {
             account: this.state.receiver,
         }).then((response) => {
             response.data.map((val) => {
-                this.setState({ balanceSender: parseFloat(parseFloat(val.curBalAccount) + parseFloat(this.state.mount)).toFixed(2) });
+                this.setState({ balanceSender: parseFloat(parseFloat(val.CURRENT_BALANCE) + parseFloat(this.state.mount)).toFixed(2) });
             });
         });
 
@@ -67,19 +68,23 @@ class withdrawal extends Component {
 
     handleClick(event, op) {
         switch (op) {
-            case 2:
+            case 1:
                 this.setState({
-                    sender: event.target.value,
+                    mount: event.target.value,
                 });
-                break;
-            case 5:
+            case 2:
                 this.setState({
                     description: event.target.value,
                 });
                 break;
-            case 6:
+            case 3:
                 this.setState({
-                    mount: event.target.value,
+                    descriptionAux: this.state.description + " del numero " + event.target.value,
+                });
+                break;
+            case 4:
+                this.setState({
+                    sender: event.target.value,
                 });
                 break;
         }
@@ -124,7 +129,7 @@ class withdrawal extends Component {
                                     paddingRight: 90,
                                 }
                             }}
-                            onChange={(event) => this.handleClick(event, 6)}
+                            onChange={(event) => this.handleClick(event, 1)}
                         />
                     </Grid>
 
@@ -135,7 +140,7 @@ class withdrawal extends Component {
                                 labelId="pagos"
                                 id="pagos"
                                 style={{ width: 250 }}
-                                onClick={(event) => this.handleClick(event, 5)}
+                                onClick={(event) => this.handleClick(event, 2)}
                                 value={this.state.description}
                             >
                                 <MenuItem value={"Pago de agua potable"}>Agua Potable</MenuItem>
@@ -147,6 +152,45 @@ class withdrawal extends Component {
                     </Grid>
 
                     <Grid item>
+                        {
+                            this.state.description === "Pago de agua potable" || this.state.description === "Pago de luz" ? (
+
+                                <TextField
+                                    label="Numero de medidor"
+                                    style={{ width: 390 }}
+                                    placeholder="154768"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    onChange={(event) => this.handleClick(event, 3)}
+                                />
+                            ) : this.state.description === "Pago de telefonía fija" ? (
+
+                                <TextField
+                                    label="Numero de telefono"
+                                    style={{ width: 390 }}
+                                    placeholder="032821357"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    onChange={(event) => this.handleClick(event, 3)}
+                                />
+                            ) : this.state.description === "Pago de Internet" ? (
+                                <TextField
+                                    label="Numero de cedula"
+                                    style={{ width: 390 }}
+                                    placeholder="1804915617"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    onChange={(event) => this.handleClick(event, 3)}
+                                />
+                            ) : null
+
+                        }
+                    </Grid>
+
+                    <Grid item>
                         <TextField
                             label="Numero de cuenta"
                             style={{ width: 390 }}
@@ -154,7 +198,7 @@ class withdrawal extends Component {
                             InputLabelProps={{
                                 shrink: true,
                             }}
-                            onChange={(event) => this.handleClick(event, 2)}
+                            onChange={(event) => this.handleClick(event, 4)}
                         />
                     </Grid>
 
@@ -169,7 +213,7 @@ class withdrawal extends Component {
                     receiver={this.state.receiver}
                     date={this.state.date}
                     type={this.state.type}
-                    description={this.state.description}
+                    description={this.state.descriptionAux}
                     mount={this.state.mount}
                     balanceSender={this.state.balanceSender}
                     balanceReceiver={this.state.balanceReceiver}

@@ -44,10 +44,10 @@ class withdrawal extends Component {
             }else{
                 this.setState({ transactionValidate: "" });
                 response.data.map((val) => {
-                    if(parseFloat(val.curBalAccount) < parseFloat(this.state.mount)){
+                    if(parseFloat(val.CURRENT_BALANCE) < parseFloat(this.state.mount)){
                         this.setState({ transactionValidate: "Fondos insuficientes." });
                     }else{
-                        this.setState({balanceReceiver:  parseFloat(parseFloat(val.curBalAccount) - parseFloat(this.state.mount)).toFixed(2)});
+                        this.setState({balanceReceiver:  parseFloat(parseFloat(val.CURRENT_BALANCE) - parseFloat(this.state.mount)).toFixed(2)});
                     }
                 });
             }
@@ -106,7 +106,7 @@ class withdrawal extends Component {
                         <TextField
                             label="Numero de cuenta"
                             style={{ width: 390 }}
-                            placeholder="2300000001"
+                            placeholder="230000000001"
                             InputLabelProps={{
                                 shrink: true,
                             }}

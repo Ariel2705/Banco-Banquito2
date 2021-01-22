@@ -38,28 +38,31 @@ class transfer extends Component {
         Axios.post('http://localhost:3000/account/searchAccount', {
             account: this.state.receiver,
         }).then((response) => {
+            console.log("BENEFICIARIO");
+            console.log(response);
             if (response.data === "") {
-                this.setState({ transactionValidate: "Cuenta no registrada del beneficiario." });
+                this.setState({ transactionValidate: "Cuenta no registrada del beneficiario. " });
             } else {
                 this.setState({ transactionValidate: "" });
                 response.data.map((val) => {
-                    this.setState({ balanceSender: parseFloat(parseFloat(val.curBalAccount) + parseFloat(this.state.mount)).toFixed(2) });
+                    this.setState({ balanceSender: parseFloat(parseFloat(val.CURRENT_BALANCE) + parseFloat(this.state.mount)).toFixed(2) });
                 });
             }
         });
 
-        Axios.post('http://localhost:3000/account/searchAccountAux', {
+        Axios.post('http://localhost:3000/account/searchAccount', {
             account: this.state.sender,
         }).then((response) => {
+            console.log("depositante");
+            console.log(response.data);
             if (response.data === "") {
-                this.setState({ transactionValidate: "Cuenta no registrada del depositante." });
+                this.setState({ transactionValidate: this.state.transactionValidate + "Cuenta no registrada del depositante. " });
             } else {
                 response.data.map((val) => {
-                    if (parseFloat(val.curBalAccount) < parseFloat(this.state.mount)) {
-                        this.setState({ transactionValidate: "Fondos insuficientes." });
+                    if (parseFloat(val.CURRENT_BALANCE) < parseFloat(this.state.mount)) {
+                        this.setState({ transactionValidate: this.state.transactionValidate + "Fondos insuficientes." });
                     } else {
-                        this.setState({ transactionValidate: "" });
-                        this.setState({ balanceReceiver: parseFloat(parseFloat(val.curBalAccount) - parseFloat(this.state.mount)).toFixed(2) });
+                        this.setState({ balanceReceiver: parseFloat(parseFloat(val.CURRENT_BALANCE) - parseFloat(this.state.mount)).toFixed(2) });
                     }
                 });
             }

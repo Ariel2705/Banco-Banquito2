@@ -53,8 +53,9 @@ class Account extends Component {
           this.setState({ AccountValidate: "El cliente no está registrado." });
           this.setState({ show: true });
         } else {
+          this.setState({ AccountValidate: "" });
           response.data.map((val) => {
-            data[0] = val.ID_Client;
+            data[0] = val.COD_CLIENT;
             this.searchTypeAccount(data);
           });
         }
@@ -66,7 +67,7 @@ class Account extends Component {
     Axios.post('http://localhost:3000/account/last')
       .then((response) => {
         response.data.map((val) => {
-          numberAccount = parseInt(val.numberAccount) + 1;
+          numberAccount = parseInt(val.NUMBER) + 1;
           this.submitAccount(idClient, numberAccount);
         });
       });
@@ -89,6 +90,7 @@ class Account extends Component {
     })
       .then((response) => {
         if (response.data === "") {
+          this.setState({ AccountValidate: this.state.AccountValidate + "" });
           this.newNumberAccount(data[0]);
         } else {
           this.setState({ AccountValidate: "Ya existe una cuenta de " + data[1] + " asignada a ese cliente" });

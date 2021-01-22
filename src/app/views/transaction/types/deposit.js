@@ -16,7 +16,6 @@ class deposit extends Component {
             type: "Crédito",
             description: "",
             mount: 0,
-            balanceSender: 0,
             balanceReceiver: 0,
             typeTransaction: "Deposito",
             transactionValidate: "",
@@ -44,7 +43,7 @@ class deposit extends Component {
             } else {
                 this.setState({ transactionValidate: "" });
                 response.data.map((val) => {
-                    this.setState({ balanceReceiver: parseFloat(parseFloat(val.curBalAccount) + parseFloat(this.state.mount)).toFixed(2) });
+                    this.setState({ balanceReceiver: parseFloat(parseFloat(val.CURRENT_BALANCE) + parseFloat(this.state.mount)).toFixed(2) });
                 });
             }
         });
@@ -85,12 +84,12 @@ class deposit extends Component {
                 >
                     <Grid item>
                         <TextField
-                            label="Ingrese el monto a depositar"
+                            label="Ingrese el moa depositar"
                             style={{ width: 390 }}
                             placeholder="$ 0.00"
                             InputLabelProps={{
                                 shrink: true,
-                            }}
+                            }}nto 
                             InputProps={{
                                 style: {
                                     fontSize: 50,
@@ -140,7 +139,6 @@ class deposit extends Component {
                     type={this.state.type}
                     description={this.state.description}
                     mount={this.state.mount}
-                    balanceSender={this.state.balanceSender}
                     balanceReceiver={this.state.balanceReceiver}
                     typeTransaction={this.state.typeTransaction}
                     transactionValidate={this.state.transactionValidate}

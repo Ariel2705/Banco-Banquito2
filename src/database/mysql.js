@@ -2,9 +2,9 @@ var mysql = require('mysql');
 
 var conexion= mysql.createConnection({
     host : 'localhost',
-    database : 'bancobanquito',
-    user : 'root',
-    password : '',
+    database : 'corebancario',
+    user : 'admin',
+    password : 'admin123',
 });
 
 conexion.connect(function(err) {

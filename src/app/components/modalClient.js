@@ -34,12 +34,13 @@ class modalClient extends Component {
     }
 
     submitReview() {
-        console.log("A");
         Axios.post('http://localhost:3000/client/insert', {
           clientDocIde: this.props.id,
           clientName: this.props.name,
           clientSurname: this.props.surname,
-          clientProvince: this.props.province,
+          clientTradeName: this.props.tradeName,
+          clientGenre: this.props.genre,
+          clientCanton: this.props.canton,
           clientAddress: this.props.address,
           clientEmail: this.props.email,
           clientPhone: this.props.phone,
@@ -64,7 +65,7 @@ class modalClient extends Component {
                         </Paper>
                     </Grid>
                     {this.props.clientIdValidate != "" ? (
-                        <Grid item xs={6}>
+                        <Grid item xs={12}>
                             <h5>{this.props.clientIdValidate}</h5>
                         </Grid>
                     ) :
@@ -76,22 +77,22 @@ class modalClient extends Component {
                                 <h4>{this.props.id}</h4>
                             </Grid>
                             <Grid item xs={6}>
-                                <h5>Nombres:</h5>
+                                <h5>Nombres y apellidos:</h5>
                             </Grid>
                             <Grid item xs={6}>
-                                <h4>{this.props.name}</h4>
+                                <h4>{this.props.name} {this.props.surname}</h4>
                             </Grid>
                             <Grid item xs={6}>
-                                <h5>Apellidos:</h5>
+                                <h5>Razon social:</h5>
                             </Grid>
                             <Grid item xs={6}>
-                                <h4>{this.props.surname}</h4>
+                                <h4>{this.props.tradeName}</h4>
                             </Grid>
                             <Grid item xs={6}>
-                                <h5>Provincia:</h5>
+                                <h5>Genero:</h5>
                             </Grid>
                             <Grid item xs={6}>
-                                <h4>{this.props.province}</h4>
+                                <h4>{this.props.genre}</h4>
                             </Grid>
                             <Grid item xs={6}>
                                 <h5>Dirección:</h5>
@@ -147,10 +148,6 @@ class modalClient extends Component {
                         </Grid>
                     </Paper>
                 </Grid>
-
-
-
-
             </div>
         );
     }
