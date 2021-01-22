@@ -24,7 +24,6 @@ app.use("/client/insert/", require('./routes/createClient.routes'));
 
 app.use("/account/searchTypeAccount/", require('./routes/searchTypeAccount.routes'));
 app.use("/account/searchAccount/", require('./routes/searchAccount.routes'));
-app.use("/account/searchAccountAux/", require('./routes/searchAccountAux.routes'));
 app.use("/account/activateAccount/", require('./routes/activateAccount.routes'));
 app.use("/account/last", require('./routes/searchLastAccount.routes'));
 app.use("/account/insert", require('./routes/createAccount.routes'));
